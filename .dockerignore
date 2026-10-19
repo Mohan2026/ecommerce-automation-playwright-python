@@ -1,0 +1,16 @@
+
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.git/
+.github/
+.vscode/
+test-results/
+playwright-report/
+htmlcov/
+.coverage
+.env
+.env.*
+!.env.example

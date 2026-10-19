@@ -1,0 +1,16 @@
+
+services:
+  playwright-tests:
+    build:
+      context: .
+    image: playwright-automation
+    command: >
+      python -m pytest -v
+      --html=artifacts/report.html
+      --self-contained-html
+      --browser chromium
+      --browser firefox
+      --browser webkit
+      -n 3
+    volumes:
+      - ./artifacts:/app/artifacts

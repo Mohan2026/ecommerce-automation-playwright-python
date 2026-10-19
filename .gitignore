@@ -1,7 +1,11 @@
 .venv/
 __pycache__/
 *.pyc
+# Pytest cache
 .pytest_cache/
+
+# Test reports and failure evidence
+artifacts/
 test-results/
 playwright-report/
 .vscode/
