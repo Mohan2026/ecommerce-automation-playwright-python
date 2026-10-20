@@ -12,7 +12,7 @@ def test_valid_login(sauce_demo: Page) -> None:
 def test_invalid_login(sauce_demo: Page) -> None:
     """Verify invalid credentials display an authentication error."""
     login_page = LoginPage(sauce_demo)
-    login_page.login("random_user","secret_sauce")
+    login_page.login("random_user","secret_sauc")
     expect(sauce_demo.locator("[data-test=\"error\"]")).to_be_visible()
     expect(sauce_demo.locator("[data-test=\"error\"]")).to_contain_text("Username and password do not match any user in this service")
     expect(sauce_demo.locator("[data-test=\"error-button\"]")).to_be_enabled()
