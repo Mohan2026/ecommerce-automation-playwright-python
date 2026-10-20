@@ -1,0 +1,11 @@
+
+{
+  "test_name": "test_checkout_total",
+  "status": "failed",
+  "error_type": "AssertionError",
+  "expected": "Total: $32.39",
+  "actual": "Total: $35.99",
+  "error_message": "Checkout total did not match the expected total.",
+  "application": "SauceDemo",
+  "browser": "chromium"
+}
