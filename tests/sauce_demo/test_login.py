@@ -33,5 +33,5 @@ def test_empty_user(sauce_demo: Page) -> None:
     login_page = LoginPage(sauce_demo)
     login_page.emptyLogin("dummy")
     expect(sauce_demo.locator("[data-test=\"error\"]")).to_be_visible()
-    expect(sauce_demo.locator("[data-test=\"error\"]")).to_contain_text("Password is required")
+    expect(sauce_demo.locator("[data-test=\"error\"]")).to_contain_text("Passwor is required")
     print("Login Failed without password")
