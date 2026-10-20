@@ -1,4 +1,5 @@
 
+
 name: Playwright UI Tests
 
 on:
@@ -32,3 +33,4 @@ jobs:
           path: artifacts/
           if-no-files-found: warn
           retention-days: 7
+  

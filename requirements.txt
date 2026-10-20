@@ -4,3 +4,5 @@ pytest-playwright
 pytest-html
 pytest-xdist
 pydantic
+python-dotenv
+openai
