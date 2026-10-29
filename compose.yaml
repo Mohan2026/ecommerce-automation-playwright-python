@@ -12,5 +12,6 @@ services:
       --browser firefox
       --browser webkit
       -n 3
+      --ai-analyze
     volumes:
       - ./artifacts:/app/artifacts
