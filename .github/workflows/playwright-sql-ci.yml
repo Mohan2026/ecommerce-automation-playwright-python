@@ -37,7 +37,7 @@ jobs:
         run: |
           docker compose run --rm --no-deps \
             playwright-tests \
-            python -m pytest tests/sauce_demo/test_cart.py \
+            python -m pytest tests/ \
             -v --browser chromium -s \
             --html=artifacts/report.html \
             --self-contained-html
