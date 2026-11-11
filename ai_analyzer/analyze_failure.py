@@ -17,10 +17,12 @@ DEFAULT_FAILURE_FILE = PROJECT_ROOT / "ai_analyzer" / "sample_failure.json"
 load_dotenv(PROJECT_ROOT / ".env")
 
 
-def analyze_failure(failure_file: Path) -> None:
+def analyze_failure(failure_file: Path) -> FailureAnalysis:
+    """Analyze a pytest failure using the OpenAI API."""
+
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError(
-            "OPENAI_API_KEY not found. Check your project .env file."
+            "OPENAI_API_KEY not found. Check your environment configuration."
         )
 
     with failure_file.open("r", encoding="utf-8") as file:
@@ -40,22 +42,41 @@ def analyze_failure(failure_file: Path) -> None:
     if analysis is None:
         raise RuntimeError("The AI did not return a parsed analysis.")
 
-    print("\n========== AI TEST FAILURE ANALYSIS ==========\n")
-    print(analysis.model_dump_json(indent=2))
+    return analysis
+
+
+def save_analysis(
+    analysis: FailureAnalysis,
+    failure_file: Path,
+) -> Path:
+    """Save the structured AI analysis as a JSON file."""
+
+    output_dir = PROJECT_ROOT / "artifacts" / "ai-analysis"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    output_file = output_dir / f"{failure_file.stem}-analysis.json"
+
+    output_file.write_text(
+        analysis.model_dump_json(indent=2),
+        encoding="utf-8",
+    )
+
+    return output_file
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Analyze a pytest failure using AI."
     )
+
     parser.add_argument(
         "--file",
         type=Path,
         default=DEFAULT_FAILURE_FILE,
         help="Path to the failure JSON file.",
     )
-    args = parser.parse_args()
 
+    args = parser.parse_args()
     failure_file = args.file.resolve()
 
     if not failure_file.is_file():
@@ -63,4 +84,10 @@ if __name__ == "__main__":
             f"Failure JSON file not found: {failure_file}"
         )
 
-    analyze_failure(failure_file)
+    analysis = analyze_failure(failure_file)
+
+    saved_path = save_analysis(analysis, failure_file)
+
+    print("\n========== AI TEST FAILURE ANALYSIS ==========\n")
+    print(analysis.model_dump_json(indent=2))
+    print(f"\nAI analysis saved to: {saved_path}")

@@ -1,9 +1,8 @@
 from playwright.sync_api import Page, expect
 from pages.login_page import LoginPage
 
-def test_add_to_cart(sauce_demo: Page) -> None:
-    login_page = LoginPage(sauce_demo)
-    login_page.login("standard_user","secret_sauce")
+def test_add_to_cart(logged_in_sauce_demo: Page) -> None:
+    sauce_demo = logged_in_sauce_demo
     expect(sauce_demo.get_by_text("Swag Labs")).to_be_visible()
     product = sauce_demo.locator(".inventory_item").filter(has_text="Sauce Labs Backpack")
     priceInPage = product.locator(".inventory_item_price").inner_text()

@@ -6,3 +6,5 @@ pytest-xdist
 pydantic
 python-dotenv
 openai
+openpyxl
+pyodbc

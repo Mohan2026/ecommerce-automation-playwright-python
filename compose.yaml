@@ -15,3 +15,33 @@ services:
       --ai-analyze
     volumes:
       - ./artifacts:/app/artifacts
+
+    environment:
+      DB_SERVER: sqlserver
+      DB_PORT: "1433"
+      DB_NAME: QA_Automation_DB
+      DB_USER: sa
+      DB_PASSWORD: ${MSSQL_SA_PASSWORD:?Set MSSQL_SA_PASSWORD in .env}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+        # SauceDemo credentials
+      SAUCEDEMO_USERNAME: ${SAUCEDEMO_USERNAME:?Missing SauceDemo username}
+      SAUCEDEMO_PASSWORD: ${SAUCEDEMO_PASSWORD:?Missing SauceDemo password}
+    depends_on:
+      - sqlserver
+
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: qa-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:?Set MSSQL_SA_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
